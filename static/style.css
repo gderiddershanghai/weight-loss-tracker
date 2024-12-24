@@ -1,23 +1,27 @@
+/* General body styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    display: block;
+    height: 100vh; /* Ensure body takes the full height of the viewport */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Make child elements stretch to the full width */
     background-color: #f9f9f9;
 }
 
+/* Header styling */
 header {
-    margin: 20px 0;
     text-align: center;
-}
-
-h1 {
+    margin: 0;
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
     font-size: 24px;
     font-weight: bold;
-    margin: 0;
-    color: #333;
 }
 
+/* Main content styling */
 main {
     flex-grow: 1; /* Make the main content fill available space */
     display: flex;
@@ -37,19 +41,11 @@ main {
     border-radius: 10px; /* Optional: Add rounded corners */
 }
 
+/* Footer styling */
 footer {
-    margin-top: 20px;
     text-align: center;
+    padding: 10px;
     font-size: 14px;
     color: #666;
-}
-
-.tooltip {
-    font-size: 12px;
-    padding: 5px 10px;
-    border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.9);
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    color: #333;
-    position: absolute;
+    background-color: #f1f1f1;
 }
