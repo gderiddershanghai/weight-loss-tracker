@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    const response = await fetch("/data");
+    const response = await fetch("static/data.json");
+
     const { dates, raw_values, cumulative_values, projections } = await response.json();
 
     // Combine actual data and projections into one dataset
@@ -28,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         .range([0, width]);
 
     const yScale = d3.scaleLinear()
-        .domain([3, -10]) // Fixed y-axis range
+        .domain([4, -12]) // Fixed y-axis range
         .range([0, height]);
 
     // SVG Canvas
