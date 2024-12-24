@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    const response = await fetch("static/data.json");
+    const response = await fetch(".static/data.json");
 
     const { dates, raw_values, cumulative_values, projections } = await response.json();
 
