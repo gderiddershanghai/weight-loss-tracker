@@ -1,6 +1,6 @@
 import numpy as np
 
-def calculate_cumulative_projections(values, last_cumulative, weights=[0.4, 0.3, 0.2, 0.1, 0.0], num_projections=5):
+def calculate_cumulative_projections(values, last_cumulative, weights=[0.4, 0.3, 0.2, 0.1, 0.0], num_projections=3):
     """
     Calculate cumulative projections based on weighted averages.
 

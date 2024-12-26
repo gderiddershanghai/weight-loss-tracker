@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify
 import pandas as pd
 from src.projections import calculate_cumulative_projections
+import json
 
 app = Flask(__name__)
 
@@ -50,7 +51,12 @@ def get_data():
         "projections": projections,
     }
 
-    return jsonify(combined_data)
+    # Save combined data to a file in the specified path
+    output_path = "/home/ginger/code/gderiddershanghai/weight-loss/static/data.json"
+    with open(output_path, 'w') as file:
+        json.dump(combined_data, file)
+
+    return "Data updated and saved successfully!"
 
 
 if __name__ == "__main__":

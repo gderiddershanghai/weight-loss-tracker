@@ -5,10 +5,6 @@ def parse_date_and_names(message):
     """
     Extracts the date and parses names and scores from a given message.
 
-    The function searches for a date in the format 'MM.DD-DX' within the message,
-    and parses specified names mapped to their scores. It expects the message to be formatted
-    with the date on one of the first few lines followed by lines containing names and scores.
-
     Parameters:
         message (str): The string message containing the date and name-score pairs.
 
@@ -19,13 +15,19 @@ def parse_date_and_names(message):
     """
     lines = message.split('\n')
     
-    date_pattern = r'\d{2}\.\d{2}-D\d+'
+    # Normalize non-standard characters for + and -
+    message = message.replace('－', '-').replace('➕', '+').replace('＋', '+').replace('–', '-')
+
+    # Extract date pattern
+    date_pattern = r'\d{2}\.\d{2}(-D\d+|共|Day\d+)?'
+    date = "Date Not Found"
     for line in lines:
         date_match = re.search(date_pattern, line)
         if date_match:
-            date = date_match.group(0).split('-')[0] if date_match else 'Date Not Found'
+            date = date_match.group(0).split('-')[0]  # Extract only the 'MM.DD' part
             break
 
+    # Mapping for name replacements
     name_mapping = {
         "💄ʚ 脚丫 ɞ 🐾": "Jenny",
         "叶卡卡": "Blue",
@@ -43,24 +45,38 @@ def parse_date_and_names(message):
         "fifi": "Fifi"
     }
 
+    # Dictionary to hold parsed data
     parsed_data = {}
-    pattern = r"([-+]?[0-9]*\.?[0-9]+)" 
+    # Pattern to extract scores
+    score_pattern = r"([-+]?\d*\.?\d+)"
 
-    for line in lines[2:]: 
+    # Iterate through lines to find names and scores
+    for line in lines[2:]:  # Assuming the first two lines are not data lines
+        # Split line into parts
         parts = line.split(' ', 2)
         if len(parts) < 3:
             continue
-        score = re.findall(pattern, parts[2])
-        score = float(score[0]) if score else 0.0 
+        
+        # Find the score in the line
+        score_matches = re.findall(score_pattern, parts[2])
+        print(score_matches)
+        if score_matches:
+            score = float(score_matches[1])
+            # Check if there's a weird plus sign or no sign, assume negative if not specified
+            if '＋' not in line and '➕' not in line and not score_matches[1].startswith(('+', '-')):
+                print('score', score)
+                score = -abs(score)
+        else:
+            score = 0.0
 
+        # Match names using the name mapping
         for key, value in name_mapping.items():
-            if key in line:  
+            if key in line:
                 parsed_data[value] = score
                 break
-
+            
     return date, parsed_data
 
-import pandas as pd
 
 def append_to_csv(data, date, file_path):
     """
@@ -86,11 +102,9 @@ def append_to_csv(data, date, file_path):
 
     if date in df['Date'].values:
         idx = df[df['Date'] == date].index[0]
-        for name in df.columns:
-            if name != 'Date':
-                df.at[idx, name] = 0
         for name, score in data.items():
             df.at[idx, name] = score
+            
     else:
         new_row = {'Date': date, **{name: 0 for name in df.columns if name != 'Date'}}
         new_row.update(data)
