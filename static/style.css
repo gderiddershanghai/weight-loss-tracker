@@ -32,14 +32,13 @@ main {
 
 /* Chart container styling */
 #chart {
-    width: 100%; /* Take full width of parent */
-    height: 100%; /* Take full height of parent */
-    max-width: 1200px; /* Optional: Set a maximum width */
-    max-height: 800px; /* Optional: Set a maximum height */
-    background-color: #fff;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visuals */
-    border-radius: 10px; /* Optional: Add rounded corners */
+    width: 100%;         /* Take full width of the parent container */
+    height: auto;        /* Maintain aspect ratio with `viewBox` */
+    max-width: 1200px;   /* Optional max-width for larger screens */
+    overflow: visible;   /* Ensure tooltips aren't clipped */
+    background-color: transparent;
 }
+
 
 /* Footer styling */
 footer {
@@ -49,3 +48,24 @@ footer {
     color: #666;
     background-color: #f1f1f1;
 }
+
+/* Tooltip styling */
+.tooltip {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 5px;
+    font-size: 12px;
+    pointer-events: none;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+@media (max-width: 600px) {
+    .tooltip {
+        font-size: 10px; /* Smaller font size for mobile */
+        padding: 3px;    /* Less padding */
+    }
+}
+
