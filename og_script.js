@@ -25,6 +25,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         goal: { date: "01.16", value: goals[user] } // Assuming the goal date is consistent for all users
     }));
     // Example assuming 'dates' is already defined and "01.16" needs to be added
+    if (!dates.includes("01.15")) {
+        dates.push("----");
+    ; // Ensure the dates are in chronological order if necessary
+    }
+
     if (!dates.includes("01.16")) {
         dates.push("01.16");
     ; // Ensure the dates are in chronological order if necessary
