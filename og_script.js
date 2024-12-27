@@ -6,6 +6,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Combine actual data and projections into one dataset
     const users = Object.keys(cumulative_values);
+    const goals = {
+        "Fifi": -5, "Sofya": -4, "Nick": -4, "Blue": -5, "Joyce": -5,
+        "Jenny": -5, "Yoyo": -8, "Jimmy": -5, "Jerry": -5, "Summer G": -10,
+        "Barry": -8, "Esther": -8, "Ginger": -10, "Mia": -10
+    };
     const data = users.map(user => ({
         name: user,
         actual: dates.slice(0, raw_values[user].length).map((date, i) => ({
@@ -16,8 +21,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         projection: dates.slice(raw_values[user].length).map((date, i) => ({
             date,
             projection: projections[user][i]
-        }))
+        })),
+        goal: { date: "01.16", value: goals[user] } // Assuming the goal date is consistent for all users
     }));
+    // Example assuming 'dates' is already defined and "01.16" needs to be added
+    if (!dates.includes("01.16")) {
+        dates.push("01.16");
+    ; // Ensure the dates are in chronological order if necessary
+    }
 
     // Dimensions
     const margin = { top: 30, right: 100, bottom: 50, left: 50 };
@@ -88,10 +99,16 @@ svg.append("text")
         .call(d3.axisLeft(yScale));
 
     // Color palette
-    const colorPalette = d3.schemeTableau10.filter(color => color !== "#ffcc00");
+    const colorPalette = [
+        "#F8766D", "#A3A500", "#00BF7D", "#00B0F6", "#E76BF3",
+        "#FA8867", "#AB8B00", "#39B185", "#00ACC1", "#C77CFF",
+        "#8E9A80", "#BC3C29", "#FFA931", "#B3DE69", "#66C2A5"
+    ];
     const color = d3.scaleOrdinal()
         .domain(users)
         .range(colorPalette);
+
+
 
     // Add actual data lines
     const lines = svg.selectAll(".line-group")
@@ -143,6 +160,20 @@ svg.append("text")
     .attr("r", 4)
     .attr("fill", v => color(v.name))
     .style("display", "none"); // Keep this
+
+    const goalPoints = svg.selectAll(".goal-point")
+    .data(data.map(d => ({ ...d.goal, name: d.name })))
+    .enter()
+    .append("circle")
+    .attr("class", "goal-point")
+    .attr("cx", d => xScale(d.date))
+    .attr("cy", d => yScale(d.value))
+    .attr("r", 5)
+    .attr("fill", d => color(d.name))
+    .style("display", "none"); // Initialize with hidden visibility
+
+
+
 
 // Add the tooltip behavior here:
 actualPoints.on("mouseover", (event, d) => {
@@ -219,7 +250,7 @@ projectionPoints.on("mouseover", (event, d) => {
         // Show scatter points for the selected user
         actualPoints.style("display", d => d.name === selectedName ? "block" : "none");
         projectionPoints.style("display", d => d.name === selectedName ? "block" : "none");
-    
+        goalPoints.style("display", d => d.name === selectedName ? "block" : "none");
         // Dim other legend items
         legend.style("opacity", d => d.name === selectedName ? 1 : 0.2);
     }

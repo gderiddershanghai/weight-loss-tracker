@@ -36,7 +36,8 @@ def update_json(csv_path, json_path):
     for col in df.columns[1:]:
         values = df[col].values.tolist()
         last_cumulative = cumulative_df[col].values[-1]
-        projections[col] = calculate_cumulative_projections(values, last_cumulative)
+        # projections[col] = calculate_cumulative_projections(values, last_cumulative)
+        projections[col] = calculate_cumulative_projections(values, last_cumulative, num_forecasts=5)
 
     # Combine data for saving
     combined_data = {
@@ -64,17 +65,15 @@ if __name__ == "__main__":
     print('update')
     message = """
     #接龙
-    Day11,-12.26
+    Day12，-12.27
 
-    1. 💄ʚ 脚丫 ɞ 🐾 ᥫᩣ -0.4
-    2. Jimmy -1.1
-    3. Mia.L -1.2，
-    4. jerry +0.3，
-    5. Joyce💗 -0.4
-    6. 叶卡卡。 +1
-    7. Sofya™ -0.6
-    8. Ginger姜睿辰 +1.4 
-    9. Summer樂小樂⁶⁶ 👼🏻 +1.1
+    1. 叶卡卡。 -0.6
+    2. Joyce💗 +0.2
+    3. jerry +0.4，共-1.1
+    4. 💄ʚ 脚丫 ɞ 🐾 ᥫᩣ -0.共3.4
+    5. Summer樂小樂⁶⁶ 👼🏻 +0.1共-6
+    6. Mia.L 0，共-5
+    7. Ginger姜睿辰 -2.2共-4.8
     """
     csv_path = "data/trial.csv"
     json_path = "static/data.json"
