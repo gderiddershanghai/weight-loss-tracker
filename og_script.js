@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const goals = {
         "Fifi": -5, "Sofya": -4, "Nick": -4, "Blue": -5, "Joyce": -5,
         "Jenny": -5, "Yoyo": -8, "Jimmy": -5, "Jerry": -5, "Summer G": -10,
-        "Barry": -8, "Esther": -8, "Ginger": -10, "Mia": -10
+        "Barry": -5, "Esther": -8, "Ginger": -10, "Mia": -10
     };
     const data = users.map(user => ({
         name: user,
@@ -22,16 +22,19 @@ document.addEventListener("DOMContentLoaded", async () => {
             date,
             projection: projections[user][i]
         })),
-        goal: { date: "01.16", value: goals[user] } // Assuming the goal date is consistent for all users
+        goal: { date: "GOAL", value: goals[user] } // Assuming the goal date is consistent for all users
     }));
     // Example assuming 'dates' is already defined and "01.16" needs to be added
     if (!dates.includes("01.15")) {
-        dates.push("----");
+        dates.push("-.-.-.-");
     ; // Ensure the dates are in chronological order if necessary
     }
-
+    if (!dates.includes("01.14")) {
+        dates.push(".-.-.-.");
+    ; // Ensure the dates are in chronological order if necessary
+    }
     if (!dates.includes("01.16")) {
-        dates.push("01.16");
+        dates.push("GOAL");
     ; // Ensure the dates are in chronological order if necessary
     }
 
@@ -88,7 +91,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     .attr("transform", `translate(0,${height})`)
     .call(d3.axisBottom(xScale))
     .selectAll("text")
-    .style("font-size", "calc(0.8em + 0.5vw)"); // Scales based on viewport width
+    .style("font-size", "calc(0.8em + 0.5vw)")
+    .attr("dx", "-2em")
+    .attr("dy", ".15em")
+    .attr("transform", "rotate(-60)"); ; // Scales based on viewport width
 
 // Add a title to the chart
 svg.append("text")
