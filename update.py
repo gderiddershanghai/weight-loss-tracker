@@ -65,16 +65,18 @@ if __name__ == "__main__":
     print('update')
     message = """
     #接龙
-    Day12，-12.27
+    D14-12.29
 
-    1. 叶卡卡。 -0.6
-    2. Joyce💗 +0.2
-    3. jerry +0.4，共-1.1
-    4. 💄ʚ 脚丫 ɞ 🐾 ᥫᩣ -0.共3.4
-    5. Summer樂小樂⁶⁶ 👼🏻 +0.1共-6
-    6. Mia.L 0，共-5
-    7. Ginger姜睿辰 -2.2共-4.8
+    1. Mia.L 0，共-5.1
+    2. Joyce💗 -0.9
+    3. Jimmy -0.1
+    4. Summer樂小樂⁶⁶ 👼🏻 -0.2共-7.7
+    5. Barry -0.4
+    6. 💄ʚ 脚丫 ɞ 🐾 ᥫᩣ +0.2，共2.9
+    7. 叶卡卡。 -1.2
+    8. Ginger姜睿辰 +1.6 共-3.2
     """
+    # message = ''
     csv_path = "data/trial.csv"
     json_path = "static/data.json"
     update_data_from_message(message, csv_path, json_path)

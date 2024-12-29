@@ -94,7 +94,7 @@ def calculate_cumulative_projections(values, last_cumulative, num_forecasts=5):
         list: A list of cumulative projections.
     """
     # Fit an ARIMA model on the differences
-    model = ARIMA(values, order=(2, 0, 3))  # ARIMA model order can be tuned based on AIC/BIC
+    model = ARIMA(values, order=(2, 1, 1))  # ARIMA model order can be tuned based on AIC/BIC
     fitted_model = model.fit()
     
     # Forecast future differences
@@ -106,8 +106,8 @@ def calculate_cumulative_projections(values, last_cumulative, num_forecasts=5):
 
     # Update cumulative totals with forecasted differences
     for diff in forecasted_differences:
-        random_shock = np.random.normal(-0.05, std_dev * 0.75)  # Adding 75% of std deviation as random shock
-        new_value = cumulative_projections[-1] + 0.75*diff + random_shock
+        random_shock = np.random.normal(-0.05, std_dev * 0.5)  # Adding 50% of std deviation as random shock
+        new_value = cumulative_projections[-1] + 0.85*diff + random_shock
         cumulative_projections.append(new_value)
     print(cumulative_projections)
     return cumulative_projections[1:]
